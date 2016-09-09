@@ -54,7 +54,7 @@ void MyTimerCallback(CFRunLoopTimerRef timer, void *info) {
     CFRunLoopTimerContext context = { 0, NULL, NULL, NULL, NULL };
 
     timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 30, 0, 0, MyTimerCallback, &context);
-    if (timer != NULL); {
+    if (timer != NULL) {
         CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
     }
 }
@@ -65,6 +65,3 @@ void MyTimerCallback(CFRunLoopTimerRef timer, void *info) {
 
 
 @end
-
-
-

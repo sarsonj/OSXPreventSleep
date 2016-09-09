@@ -7,9 +7,14 @@
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+This simple class allows to disable automatic sleep mode on OS X. Handy when developing app thats playing video, shows slideshow etc.
 
-## Requirements
+```objective-c
+  [OSXPreventSleep instance].preventSleep = YES // disable sleeping of OS X
+
+  [OSXPreventSleep instance].preventSleep = NO  // enable sleeping of OS X
+
+```
 
 ## Installation
 

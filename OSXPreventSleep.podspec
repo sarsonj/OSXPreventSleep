@@ -29,7 +29,7 @@ playing video in your app, watching slideshow etc. This simple class can do this
   s.source           = { :git => 'https://github.com/sarsonj/OSXPreventSleep.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.osx.deployment_target = '8.0'
+  s.osx.deployment_target = '10.8'
 
   s.source_files = 'Classes/**/*'
 
