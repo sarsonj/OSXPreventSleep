@@ -3,16 +3,11 @@
 //
 
 #import "OSXPreventSleep.h"
-#include <CoreServices/CoreServices.h>
-
-
-void MyTimerCallback(CFRunLoopTimerRef timer, void *info) {
-    UpdateSystemActivity(OverallAct);
-}
+#import <IOKit/pwr_mgt/IOPMLib.h>
 
 @implementation OSXPreventSleep {
     BOOL _preventSleep;
-    CFRunLoopTimerRef timer;
+    IOPMAssertionID displaySleepAssertionID;
 }
 + (OSXPreventSleep *)instance {
     static OSXPreventSleep *_instance = nil;
@@ -43,25 +38,21 @@ void MyTimerCallback(CFRunLoopTimerRef timer, void *info) {
 }
 
 - (void)stopPreventSleep {
-    if (timer) {
-        CFRunLoopTimerInvalidate(timer);
-        CFRelease(timer);
-    }
-    timer = NULL;
+  if (displaySleepAssertionID != 0) {
+      IOPMAssertionRelease(displaySleepAssertionID);
+      displaySleepAssertionID = 0;
+  }
 }
 
 - (void)startPreventSleep {
-    CFRunLoopTimerContext context = { 0, NULL, NULL, NULL, NULL };
-
-    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 30, 0, 0, MyTimerCallback, &context);
-    if (timer != NULL) {
-        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
-    }
+  if (displaySleepAssertionID == 0) {
+      IOPMAssertionCreateWithName(
+              kIOPMAssertionTypeNoDisplaySleep,
+              kIOPMAssertionLevelOn,
+              CFSTR("Baby monitor running"),
+              &displaySleepAssertionID);
+  }
 }
-
-
-
-
 
 
 @end
